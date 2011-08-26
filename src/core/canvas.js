@@ -184,6 +184,7 @@ exports.canvas = function() {
     canvas.vibrance = wrap(vibrance);
     canvas.sepia = wrap(sepia);
     canvas.whiteBalance = wrap(whiteBalance);
+    canvas.flip = wrap(flip);
 
     return canvas;
 };
