@@ -187,6 +187,7 @@ exports.canvas = function() {
     canvas.flip = wrap(flip);
     canvas.rotate = wrap(rotate);
     canvas.zoom = wrap(zoom);
+    canvas.grid = wrap(grid);
 
     return canvas;
 };
