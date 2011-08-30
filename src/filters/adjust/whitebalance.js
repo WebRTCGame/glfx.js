@@ -6,19 +6,22 @@
 function whiteBalance(amount) {
      var r, b;
      
+     var amount2 = Math.abs(amount) / 2.0;
+     var amount4 = Math.abs(amount) / 4.0;
+     
      if (amount > 0) {
          // Add red, remove blue and green
-         r = [0.5, 0.5 + (amount / 2.0)];
-         b = [0.5, 0.5 - (amount / 4.0)];
+         r = [[0.0, 0.0 + amount2], [0.5, 0.5 + amount2], [1.0 - amount2, 1.0]];
+         b = [[0.0 + amount4, 0.0], [0.5, 0.5 - amount4], [1.0, 1.0 - amount4]];
      } else {
          // Add blue, remove red and green
-         r = [0.5, 0.5 + (amount / 4.0)];
-         b = [0.5, 0.5 - (amount / 2.0)];
+         r = [[0.0 + amount4, 0.0], [0.5, 0.5 - amount4], [1.0, 1.0 - amount4]];
+         b = [[0.0, 0.0 + amount2], [0.5, 0.5 + amount2], [1.0 - amount2, 1.0]];
      }
      
      return this.curves(
-         [[0, 0], r, [1, 1]],
-         [[0, 0], [0.5, 0.5 - (Math.abs(amount) / 4.0)], [1, 1]],
-         [[0, 0], b, [1, 1]]
+         r,
+         [[0.0 + amount4, 0.0], [0.5, 0.5 - amount4], [1.0 - amount4, 1.0]],
+         b
      );
 }
