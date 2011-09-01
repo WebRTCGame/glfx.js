@@ -40,7 +40,7 @@ function matrixWarp(matrix, inverse, center) {
 
     simpleShader.call(this, gl.matrixWarp, {
         matrix: inverse ? getInverse(matrix) : matrix,
-        texSize: [this.width, this.height],
+        texSize: [this._.texture.width, this._.texture.height],
         center: center | 0
     });
 
