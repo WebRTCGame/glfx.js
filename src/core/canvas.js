@@ -180,6 +180,7 @@ exports.canvas = function() {
     canvas.flip = wrap(flip);
     canvas.rotate = wrap(rotate);
     canvas.zoom = wrap(zoom);
+    canvas.move = wrap(move);
     canvas.crop = wrap(crop);
     canvas.grid = wrap(grid);
 
