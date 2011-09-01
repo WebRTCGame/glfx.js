@@ -88,12 +88,15 @@ function contents() {
    Get a Uint8 array of pixel values: [r, g, b, a, r, g, b, a, ...]
    Length of the array will be width * height * 4.
 */
-function getPixelArray() {
-    var w = this._.texture.width;
-    var h = this._.texture.height;
-    var array = new Uint8Array(w * h * 4);
+function getPixelArray(x, y, width, height) {
+    x = x || 0;
+    y = y || 0;
+    width = width || this._.texture.width;
+    height = height || this._.texture.height;
+    console.debug(x, y, width, height);
+    var array = new Uint8Array(width * height * 4);
     this._.texture.drawTo(function() {
-        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, array);
+        gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
     });
     return array;
 }
