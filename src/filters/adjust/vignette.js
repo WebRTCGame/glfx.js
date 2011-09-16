@@ -2,7 +2,7 @@
  * @filter         Vignette
  * @description    Adds a simulated lens edge darkening effect.
  * @param size     0 to 1 (0 for center of frame, 1 for edge of frame)
- * @param amount   0 to 1 (0 for no effect, 1 for maximum lens darkening)
+ * @param amount   -1 to 1 (0 for no effect, 1 for maximum lens darkening, -1 for maximum lens lightening)
  * @param x        X offset in pixels, default 0
  * @param y        Y offset in pixels, default 0
  * @param width    Width of vignette in pixels, default canvas.width
@@ -20,7 +20,11 @@ function vignette(size, amount, x, y, width, height) {
             vec4 color = texture2D(texture, texCoord);\
             \
             float dist = distance((texCoord * multiplier) + offset, vec2(0.5, 0.5));\
-            color.rgb *= smoothstep(0.8, size * 0.8, dist * (amount + size));\
+            if (amount < 0.0) {\
+               color.rgb /= smoothstep(0.8, size * 0.8, dist * (-amount + size));\
+            } else {\
+               color.rgb *= smoothstep(0.8, size * 0.8, dist * (amount + size));\
+            }\
             \
             gl_FragColor = color;\
         }\
@@ -33,7 +37,7 @@ function vignette(size, amount, x, y, width, height) {
 
     simpleShader.call(this, gl.vignette, {
         size: clamp(0, size, 1),
-        amount: clamp(0, amount, 1),
+        amount: clamp(-1, amount, 1),
         offset: [x / width, y / height],
         multiplier: [this.width / width, this.height / height]
     });
