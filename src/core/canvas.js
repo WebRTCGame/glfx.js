@@ -189,7 +189,8 @@ exports.canvas = function() {
     canvas.move = wrap(move);
     canvas.crop = wrap(crop);
     canvas.grid = wrap(grid);
-
+    canvas.splitTone = wrap(splitTone);
+    
     return canvas;
 };
 exports.splineInterpolate = splineInterpolate;
