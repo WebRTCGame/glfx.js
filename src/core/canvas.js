@@ -191,6 +191,7 @@ exports.canvas = function() {
     canvas.grid = wrap(grid);
     canvas.splitTone = wrap(splitTone);
     canvas.streetPhoto = wrap(streetPhoto);
+    canvas.infrared = wrap(infrared);
     
     return canvas;
 };
