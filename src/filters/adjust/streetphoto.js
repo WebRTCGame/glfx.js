@@ -1,7 +1,7 @@
 /**
- * @filter         Sepia
- * @description    Gives the image a reddish-brown monochrome tint that imitates an old photograph.
- * @param amount   0 to 1 (0 for no effect, 1 for full sepia coloring)
+ * @filter         Street Photo Effect
+ * @description    Gives the image a gritty, surreal contrasty effect
+ * @param amount   0 to 1 (0 for no effect, 1 for full effect)
  */
 function streetPhoto(amount) {
     gl.streetPhoto = gl.streetPhoto || new Shader(null, '\
@@ -60,12 +60,12 @@ function streetPhoto(amount) {
             float average = (color.r + color.g + color.b) / 3.0;\
             color.rgb += (average - color.rgb) * (1.0 - 1.0 / (1.001 - 0.45));\
             \
-            gl_FragColor = color;\
+            gl_FragColor = (color * amount) + (orig * (1.0 - amount));\
         }\
     ');
 
     simpleShader.call(this, gl.streetPhoto, {
-        amount: clamp(0, amount, 1),
+        amount: clamp(0, amount || 1.0, 1),
         texSize: [this._.texture.width, this._.texture.height]
     });
 
