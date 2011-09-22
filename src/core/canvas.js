@@ -190,6 +190,7 @@ exports.canvas = function() {
     canvas.crop = wrap(crop);
     canvas.grid = wrap(grid);
     canvas.splitTone = wrap(splitTone);
+    canvas.streetPhoto = wrap(streetPhoto);
     
     return canvas;
 };
