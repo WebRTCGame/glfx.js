@@ -1,4 +1,12 @@
+/**
+ * @filter           Gaussian Blur
+ * @description      Returns the blurred image.
+ * @param size       Kernel size
+ * @param sigma      Standard deviation
+ */
 function gaussian(size, sigma) {
+    //We're gonna calculate the 2D kernel with the given parameters first
+    //Using a 2D kernel is sooooo much more efficient than using a 3d kernel
     var values = new Array();
     var radius = Math.ceil(size/2);
     var halfradius = Math.ceil(radius/2);
@@ -16,6 +24,8 @@ function gaussian(size, sigma) {
         values[i] *= m;
     }
     
+    //This looks pretty dirty, but since I'm a WebGL newbie, it's the only way I got it to run ... feel free to change it
+    //We have to build two different fragment shaders, since we're using two 2D kernels instead of one 3D
     var fragmentx = '\
         uniform sampler2D texture;\
         varying vec2 texCoord;\
