@@ -18,7 +18,7 @@ function join(texture) {
             vec4 color0 = texture2D(texture0, texCoord).rgba;\
             vec4 color1 = texture2D(texture1, texCoord).rgba;\
             vec3 grey = vec3(color1.r*0.3+color1.g*0.59+color1.b*0.11);\
-            if(grey.r < 0.2) {\
+            if(grey.r < 0.01) {\
                 color0 = vec4(grey, 1.0);\
             }\
             gl_FragColor = color0;\
