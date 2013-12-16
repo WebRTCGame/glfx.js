@@ -179,6 +179,9 @@ exports.canvas = function() {
     canvas.vibrance = wrap(vibrance);
     canvas.sepia = wrap(sepia);
 
+    canvas.boxblur = wrap(boxblur);
+    canvas.bilateral = wrap(bilateral);
+
     return canvas;
 };
 exports.splineInterpolate = splineInterpolate;
