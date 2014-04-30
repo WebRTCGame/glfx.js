@@ -1,7 +1,10 @@
 .DS_Store
 *.pyc
+<<<<<<< HEAD
 /glfx.js
 /www/glfx.js/glfx.js
 /www/glfx.js/index.html
 /www/glfx.js/demo/index.html
 /www/glfx.js/docs/index.html
+=======
+>>>>>>> 88a2e0ff6ba35b373ef4ae82a660538ead0c5a99

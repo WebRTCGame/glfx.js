@@ -178,6 +178,7 @@ exports.canvas = function() {
     canvas.vignette = wrap(vignette);
     canvas.vibrance = wrap(vibrance);
     canvas.sepia = wrap(sepia);
+<<<<<<< HEAD
     canvas.gaussian = wrap(gaussian);
     canvas.comic = wrap(comic);
     canvas.join = wrap(join);
@@ -186,6 +187,20 @@ exports.canvas = function() {
     canvas.boxblur = wrap(boxblur);
     canvas.bilateral = wrap(bilateral);
 
+=======
+    canvas.glitch = wrap(glitch);
+    
+>>>>>>> 88a2e0ff6ba35b373ef4ae82a660538ead0c5a99
     return canvas;
 };
 exports.splineInterpolate = splineInterpolate;
+
+exports.ALPHA = 6406;
+exports.LUMINANCE = 6409;
+exports.LUMINANCE_ALPHA = 6410;
+exports.RGB = 6407;
+exports.RGBA = 6408;
+exports.UNSIGNED_BYTE = 5121;
+exports.UNSIGNED_SHORT_4_4_4_4 = 32819;
+exports.UNSIGNED_SHORT_5_5_5_1 = 32820;
+exports.UNSIGNED_SHORT_5_6_5 = 33635;

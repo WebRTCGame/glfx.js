@@ -8,9 +8,10 @@ import re, os, sys, time, tempfile
 
 header = '''/*
  * glfx.js
- * http://evanw.github.com/glfx.js/
+ * https://github.com/after12am/glfx.js
  *
  * Copyright 2011 Evan Wallace
+ * Copyright 2012 Satoshi Okami
  * Released under the MIT license
  */
 '''
@@ -42,7 +43,7 @@ def build():
         os.write(f1, data)
         os.close(f1)
         os.close(f2)
-        os.system('closure --js %s --js_output_file %s' % (temp1_path, temp2_path))
+        os.system('java -jar /usr/local/bin/closure --js %s --js_output_file %s' % (temp1_path, temp2_path))
         os.remove(temp1_path)
         data = open(temp2_path).read()
         os.remove(temp2_path)
