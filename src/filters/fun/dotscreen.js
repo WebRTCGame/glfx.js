@@ -7,13 +7,14 @@
  * @param angle   The rotation of the pattern in radians.
  * @param size    The diameter of a dot in pixels.
  */
-function dotScreen(centerX, centerY, angle, size) {
+function dotScreen(centerX, centerY, angle, size, colorized) {
     gl.dotScreen = gl.dotScreen || new Shader(null, '\
         uniform sampler2D texture;\
         uniform vec2 center;\
         uniform float angle;\
         uniform float scale;\
         uniform vec2 texSize;\
+        uniform vec4 colorized;\
         varying vec2 texCoord;\
         \
         float pattern() {\
@@ -23,13 +24,14 @@ function dotScreen(centerX, centerY, angle, size) {
                 c * tex.x - s * tex.y,\
                 s * tex.x + c * tex.y\
             ) * scale;\
-            return (sin(point.x) * sin(point.y)) * 4.0;\
+            return (sin(point.x) * sin(point.y)) * 3.0;\
         }\
         \
         void main() {\
             vec4 color = texture2D(texture, texCoord);\
             float average = (color.r + color.g + color.b) / 3.0;\
-            gl_FragColor = vec4(vec3(average * 10.0 - 5.0 + pattern()), color.a);\
+            float val = average * 10.0 - 5.0 + pattern();\
+            gl_FragColor = val > 0.86 ? colorized : vec4(vec3(val), color.a) + colorized;\
         }\
     ');
 
@@ -37,7 +39,8 @@ function dotScreen(centerX, centerY, angle, size) {
         center: [centerX, centerY],
         angle: angle,
         scale: Math.PI / size,
-        texSize: [this.width, this.height]
+        texSize: [this.width, this.height],
+        colorized: colorized || [0,0,0,0]
     });
 
     return this;

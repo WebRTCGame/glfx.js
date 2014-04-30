@@ -138,7 +138,6 @@ var Glitch = function(canvas, texture) {
     };
 };
 
-
 function glitch(texture) {
 	return new Glitch(this, texture);
 }

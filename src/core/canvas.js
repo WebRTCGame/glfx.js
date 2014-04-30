@@ -64,7 +64,7 @@ function initialize(width, height) {
    are used.
 */
 function draw(texture, width, height) {
-    if (!this._.isInitialized || texture._.width != this.width || texture._.height != this.height) {
+    if (!this._.isInitialized || texture._.width != width || texture._.height != height) {
         initialize.call(this, width ? width : texture._.width, height ? height : texture._.height);
     }
 
@@ -109,14 +109,34 @@ function contents() {
    Get a Uint8 array of pixel values: [r, g, b, a, r, g, b, a, ...]
    Length of the array will be width * height * 4.
 */
-function getPixelArray() {
-    var w = this._.texture.width;
-    var h = this._.texture.height;
-    var array = new Uint8Array(w * h * 4);
+function getPixelArray(x, y, width, height) {
+    x = x || 0;
+    y = y || 0;
+    width = width || this._.texture.width;
+    height = height || this._.texture.height;
+    
+    var array = new Uint8Array(width * height * 4);
     this._.texture.drawTo(function() {
-        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, array);
+        gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, array);
     });
     return array;
+}
+
+// Fix broken toDataURL() methods on some implementations
+function toDataURL(mimeType) {
+    var w = this._.texture.width;
+    var h = this._.texture.height;
+    var array = getPixelArray.call(this);
+    var canvas2d = document.createElement('canvas');
+    var c = canvas2d.getContext('2d');
+    canvas2d.width = w;
+    canvas2d.height = h;
+    var data = c.createImageData(w, h);
+    for (var i = 0; i < array.length; i++) {
+        data.data[i] = array[i];
+    }
+    c.putImageData(data, 0, 0);
+    return canvas2d.toDataURL(mimeType);
 }
 
 function wrap(func) {
@@ -132,7 +152,10 @@ function wrap(func) {
 exports.canvas = function() {
     var canvas = document.createElement('canvas');
     try {
-        gl = canvas.getContext('experimental-webgl', { premultipliedAlpha: false });
+        gl = canvas.getContext('experimental-webgl', {
+            premultipliedAlpha: false,
+            preserveDrawingBuffer: true
+        });
     } catch (e) {
         gl = null;
     }
@@ -154,11 +177,15 @@ exports.canvas = function() {
     canvas.replace = wrap(replace);
     canvas.contents = wrap(contents);
     canvas.getPixelArray = wrap(getPixelArray);
+    if( !canvas.toDataURL ) {
+        canvas.toDataURL = wrap(toDataURL);
+    }
 
     // Filter methods
     canvas.brightnessContrast = wrap(brightnessContrast);
     canvas.hexagonalPixelate = wrap(hexagonalPixelate);
     canvas.hueSaturation = wrap(hueSaturation);
+    canvas.vibrance = wrap(vibrance);
     canvas.colorHalftone = wrap(colorHalftone);
     canvas.triangleBlur = wrap(triangleBlur);
     canvas.unsharpMask = wrap(unsharpMask);
@@ -178,7 +205,21 @@ exports.canvas = function() {
     canvas.vignette = wrap(vignette);
     canvas.vibrance = wrap(vibrance);
     canvas.sepia = wrap(sepia);
-<<<<<<< HEAD
+
+    canvas.whiteBalance = wrap(whiteBalance);
+    canvas.flip = wrap(flip);
+    canvas.rotate = wrap(rotate);
+    canvas.zoom = wrap(zoom);
+    canvas.move = wrap(move);
+    canvas.crop = wrap(crop);
+    canvas.grid = wrap(grid);
+    canvas.splitTone = wrap(splitTone);
+    canvas.streetPhoto = wrap(streetPhoto);
+    canvas.infrared = wrap(infrared);
+
+    
+    canvas.skin = wrap(skin);
+    
     canvas.gaussian = wrap(gaussian);
     canvas.comic = wrap(comic);
     canvas.join = wrap(join);
@@ -187,10 +228,9 @@ exports.canvas = function() {
     canvas.boxblur = wrap(boxblur);
     canvas.bilateral = wrap(bilateral);
 
-=======
     canvas.glitch = wrap(glitch);
-    
->>>>>>> 88a2e0ff6ba35b373ef4ae82a660538ead0c5a99
+
+    canvas.bending = wrap(bending);
     return canvas;
 };
 exports.splineInterpolate = splineInterpolate;
