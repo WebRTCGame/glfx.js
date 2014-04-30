@@ -4,7 +4,9 @@ module = 'fx'
 input_path = 'src/'
 output_path = 'glfx.js'
 
-import re, os, sys, time, tempfile
+www_dir = 'www/glfx.js/' 
+
+import re, os, sys, time, tempfile, shutil
 
 header = '''/*
  * glfx.js
@@ -50,6 +52,10 @@ def build():
         data = compress_glsl(data)
     data = header + data
     open(output_path, 'w').write(data)
+
+    if os.path.exists(www_dir):
+	    shutil.copy(output_path, os.path.join(www_dir, output_path))
+
     print 'built %s (%u lines)' % (output_path, len(data.split('\n')))
 
 def stat():
